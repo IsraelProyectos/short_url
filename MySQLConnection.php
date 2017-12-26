@@ -31,8 +31,9 @@ class MySQLConnection{
 		$row = mysqli_fetch_array($print_last_register);
 		$max_id = $row[0]; 
 		foreach ($xlsFile as $fileXls) {
-			$fileXls = strtoupper($fileXls);
-			$query_exist_register = "select Id from short_url where Large_Url= '".$fileXls."' " ;
+			//$fileXls = strtoupper($fileXls);
+			$query_exist_register = "select Id from short_url where upper(Large_Url) = upper('".$fileXls."') " ;
+			//echo $query_exist_register;
 			$exist_register = $this->executeQuery($query_exist_register);
 			if ($exist_register->num_rows == 0) {
 				$max_id = $max_id + 1;
@@ -48,6 +49,7 @@ class MySQLConnection{
 
 	function executeQuery($query){
 		$query_result = mysqli_query($this->connection, $query) or die('Error al ejecutar la query');
+		//echo mysqli_num_rows($query_result);
 		return $query_result;
 	}
 }

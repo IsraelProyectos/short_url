@@ -16,15 +16,31 @@ class ShortUrl
 
 	function readXLS($xlsFile){
 
-		$data = new Spreadsheet_Excel_Reader();
-		$data->setOutputEncoding('CP1251');
-		$data->read($xlsFile);
+		// $data = new Spreadsheet_Excel_Reader();
+		// $data->setOutputEncoding('CP1251');
+		// $data->read($xlsFile);
+		// $array_xls = array();
+		// for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
+		// 	for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
+		// 		$xlsData = $data->sheets[0]['cells'][$i][$j];
+		// 		array_push($array_xls, $xlsData);
+		// 	}
+		// }
+		// //unlink("archivos/excel.xls");
+		$objPHPExcel = PHPExcel_IOFactory::load($xlsFile);
+	
+		//Asigno la hoja de calculo activa
+		$objPHPExcel->setActiveSheetIndex(0);
+		//Obtengo el numero de filas del archivo
+		$numRows = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();
+		
+		
 		$array_xls = array();
-		for ($i = 1; $i <= $data->sheets[0]['numRows']; $i++) {
-			for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
-				$xlsData = $data->sheets[0]['cells'][$i][$j];
-				array_push($array_xls, $xlsData);
-			}
+		for ($i = 1; $i <= $numRows; $i++) {
+			
+			$url = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getCalculatedValue();
+			
+			array_push($array_xls, $url);
 		}
 		return $array_xls;
 	}

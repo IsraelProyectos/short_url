@@ -2,7 +2,7 @@
 /**
 * Israel
 */
-require_once 'Excel/reader.php';
+require_once 'archivos/PHPExcel-1.8/Classes/PHPExcel/IOFactory.php';
 class ShortUrl
 {
 	function readCSV($csvFile){
@@ -42,6 +42,7 @@ class ShortUrl
 			
 			array_push($array_xls, $url);
 		}
+		unlink($xlsFile);
 		return $array_xls;
 	}
 }

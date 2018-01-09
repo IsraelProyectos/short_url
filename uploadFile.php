@@ -4,16 +4,15 @@
 
     <meta charset="utf-8">
 
-    <title>Subir una o varias imagenes al servidor</title>
+    <title>Subir excel</title>
 
 </head>
 
 <body>
 
     <?php
-
     $carpetaDestino="archivos/";
-
+    
 
     if(isset($_FILES["archivo"]) && $_FILES["archivo"]["name"][0])
 
@@ -47,6 +46,7 @@
                     {
 
                         echo "<br>".$_FILES["archivo"]["name"][$i]." movido correctamente";
+                        include_once("readCSVstart.php");
 
                     }else{
 
@@ -70,7 +70,7 @@
 
     }else{
 
-        echo "<br>No se ha subido ninguna imagen";
+        echo "<br>No se ha subido ningun archivo";
 
     }
 
@@ -79,7 +79,8 @@
     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post" enctype="multipart/form-data" name="inscripcion">
 
         <input type="file" name="archivo[]" multiple="multiple">
-
+		</br>
+		</br>
         <input type="submit" value="Enviar"  class="trig">
 
     </form>

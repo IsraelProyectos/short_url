@@ -1,19 +1,30 @@
 <?php
-include_once('leer_excel.php');
+ini_set('error_reporting', E_ALL-E_NOTICE);
+ini_set('display_errors', 1);
+include_once('extractDocumentToArray.php');
 include_once('MySQLConnection.php');
-$csvFile = 'nombres.csv';
-$xlsFile = 'archivos/excel.xls';
-$ShortUrl = new ShortUrl();
-//$arrayCSV = $ShortUrl->readCSV($csvFile);
-$arrayXLS = $ShortUrl->readXLS($xlsFile);
-$connectToBD = new MySQLConnection();
-$openConnection = $connectToBD->connectToMySQL('db480544677.db.1and1.com','dbo480544677','lokomotiv1973','db480544677');
-foreach ($arrayXLS as $name) {
-	echo $name. "</br>";
+class readFileStart
+{
+	function startRead($file){
+		$csvFile = 'nombres.csv';
+		$xlsFile = $file;
+		$ShortUrl = new ShortUrl();
+		// //$arrayCSV = $ShortUrl->readCSV($csvFile);
+		$arrayXLS = $ShortUrl->readXLS($xlsFile);
+		$connectToBD = new MySQLConnection();
+		$openConnection = $connectToBD->connectToMySQL('localhost', 'emailings', 'DksQcaPP1waV', 'emailings');
+		//$numero = 0;
+		// foreach ($arrayXLS as $name) {
+		// 	echo $name."</br>";
+		// 	//$numero += 1;
+		// }
+		//echo $numero;
+		//print_r($arrayXLS);
+		$executeQuery = $connectToBD->query($arrayXLS);
+		$closeConnection = $connectToBD->disconnectMySQL($openConnection);
+		echo 'conexion terminada';
+		//print_r($arrayCSV[0][0]);
+		//print_r($arrayXLS[0]);
+	}
 }
-$executeQuery = $connectToBD->query($arrayXLS);
-$closeConnection = $connectToBD->disconnectMySQL($openConnection);
-echo 'conexion terminada';
-//print_r($arrayCSV[0][0]);
-//print_r($arrayXLS[0]);
 ?>

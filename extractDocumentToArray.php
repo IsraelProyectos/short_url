@@ -2,7 +2,8 @@
 /**
 * Israel
 */
-require_once 'archivos/PHPExcel-1.8/Classes/PHPExcel/IOFactory.php';
+include_once("archivos/PHPExcel-1.8/Classes/PHPExcel/IOFactory.php");
+include_once("MySQLConnection.php");
 class ShortUrl
 {
 	function readCSV($csvFile){
@@ -15,18 +16,6 @@ class ShortUrl
 	}
 
 	function readXLS($xlsFile){
-
-		// $data = new Spreadsheet_Excel_Reader();
-		// $data->setOutputEncoding('CP1251');
-		// $data->read($xlsFile);
-		// $array_xls = array();
-		// for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
-		// 	for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
-		// 		$xlsData = $data->sheets[0]['cells'][$i][$j];
-		// 		array_push($array_xls, $xlsData);
-		// 	}
-		// }
-		// //unlink("archivos/excel.xls");
 		$objPHPExcel = PHPExcel_IOFactory::load($xlsFile);
 	
 		//Asigno la hoja de calculo activa
@@ -36,14 +25,38 @@ class ShortUrl
 		
 		
 		$array_xls = array();
+		$tiempo_inicio=microtime(true);
 		for ($i = 1; $i <= $numRows; $i++) {
 			
 			$url = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getCalculatedValue();
 			
 			array_push($array_xls, $url);
 		}
+		
+		$tiempo_fin=microtime(true);
+
+		echo "El array se ha generado en ".($tiempo_fin-$tiempo_inicio)." segundos"."</br>";
+		//echo count($array_xls)."</br>";
+		$lista_simple = array_values(array_unique($array_xls));
+		//echo count($lista_simple)."</br>";
+		$excel_new = array();
+		$connectToBD = new MySQLConnection();
+		$openConnection = $connectToBD->connectToMySQL('localhost', 'emailings', 'DksQcaPP1waV', 'emailings');
+		$tiempo_iniciodos=microtime(true);
+		foreach ($lista_simple as $fileXls) {
+			$query_exist_register = "select Id from short_url where upper(Large_Url) = upper('".$fileXls."') " ;
+			$exist_register = $connectToBD->executeQuery($query_exist_register);
+			if ($exist_register->num_rows == 0) {
+				array_push($excel_new, $fileXls);	
+		    }
+		}
+		$closeConnection = $connectToBD->disconnectMySQL($openConnection);
+		echo 'conexion cerrada'.'</br>';
+		$tiempo_findos=microtime(true);
+		echo "La comprabacion en BBDD se realizo en ".($tiempo_findos-$tiempo_iniciodos)." segundos"."</br>";
 		unlink($xlsFile);
-		return $array_xls;
+		//print_r($excel_new);
+		return $excel_new;
 	}
 }
 ?>

@@ -35,7 +35,7 @@ class MySQLConnection{
 		$max_id = $row[0];
 		
 		if (count($document) == 0) {
-			echo "El archivo de direcciones ya ha sido subido";
+			echo "El archivo de direcciones ya ha sido subido </br>";
 		}
 		else{
 			foreach ($document as $documentFile) {

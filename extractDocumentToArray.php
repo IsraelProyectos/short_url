@@ -44,7 +44,7 @@ class ShortUrl
 		echo 'conexion cerrada'.'</br>';
 		$tiempo_findos=microtime(true);
 		echo "La comprabacion en BBDD se realizo en ".($tiempo_findos-$tiempo_iniciodos)." segundos"."</br>";
-
+		unlink($csvFile);
 	    return $excel_unique;
 	}
 
@@ -87,7 +87,7 @@ class ShortUrl
 		echo 'conexion cerrada'.'</br>';
 		$tiempo_findos=microtime(true);
 		echo "La comprabacion en BBDD se realizo en ".($tiempo_findos-$tiempo_iniciodos)." segundos"."</br>";
-		//unlink($xlsFile);
+		unlink($xlsFile);
 		//print_r($excel_new);
 		return $excel_unique;
 	}

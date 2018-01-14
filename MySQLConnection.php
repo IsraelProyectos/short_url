@@ -26,31 +26,29 @@ class MySQLConnection{
 		$connection->close();			
 	}
 
-	function query($xlsFile){
+	function query($document){
 		$tiempo_inicio=microtime(true);
 		//Mirar mayusculas, ninusculas en MySQL
 		$lastRegister = "select MAX(Id) as id_maximo from short_url";
 		$print_last_register = $this->executeQuery($lastRegister);
 		$row = mysqli_fetch_array($print_last_register);
 		$max_id = $row[0];
-		//print_r($xlsFile);
-		foreach ($xlsFile as $fileXls) {
-			//$fileXls = strtoupper($fileXls);
-
-
-			// $query_exist_register = "select Id from short_url where upper(Large_Url) = upper('".$fileXls."') " ;
-			// //echo $query_exist_register;
-			// $exist_register = $this->executeQuery($query_exist_register);
-			// if ($exist_register->num_rows == 0) {
-				$max_id = $max_id + 1;
-				$query = "insert into short_url(Large_url, Short_url) values('".$fileXls."', 'www.volskwagen' '".$max_id."' '.es' )";
-				//echo $fileXls. '</br>';
-				$insert = $this->executeQuery($query);
-			// }else{
-				
-			// 	//echo 'La direccion ' .$fileXls. ' ya existe en la base de datos </br>';	
-			// }
+		
+		if (count($document) == 0) {
+			echo "El archivo de direcciones ya ha sido subido";
 		}
+		else{
+			foreach ($document as $documentFile) {
+				// for ($i=0; $i < count($documentFile); $i++) { 
+				// 	$file = $documentFile[0];
+				// }
+				//$documentFile = strtoupper($documentFile);
+					$max_id = $max_id + 1;
+					$query = "insert into short_url(Large_url, Short_url) values('".$documentFile."', 'www.volskwagen' '".$max_id."' '.es' )";
+					//echo $documentFile. '</br>';
+					$insert = $this->executeQuery($query);
+			}
+	    }
 		$tiempo_fin=microtime(true);
 
 		echo "La introduccion a la BBDD ha tardado ".($tiempo_fin-$tiempo_inicio)." segundos"."</br>";

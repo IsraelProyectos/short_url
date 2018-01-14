@@ -9,6 +9,7 @@ class ShortUrl
 	function readCSV($csvFile){
 		$array_csv = array();
 	    $csv_files = fopen($csvFile, 'r');
+	    $tiempo_inicio=microtime(true);
 	    while (($datos = fgetcsv($csv_files, ",")) == true) {
 	        //$array_csv = fgetcsv($csv_files, 1024);
 	        for ($i=0; $i < count($csv_files) ; $i++) { 
@@ -43,7 +44,7 @@ class ShortUrl
 		$closeConnection = $connectToBD->disconnectMySQL($openConnection);
 		echo 'conexion cerrada'.'</br>';
 		$tiempo_findos=microtime(true);
-		echo "La comprabacion en BBDD se realizo en ".($tiempo_findos-$tiempo_iniciodos)." segundos"."</br>";
+		echo "La comprobacion en BBDD se realizo en ".($tiempo_findos-$tiempo_iniciodos)." segundos"."</br>";
 		unlink($csvFile);
 	    return $excel_unique;
 	}
@@ -86,7 +87,7 @@ class ShortUrl
 		$closeConnection = $connectToBD->disconnectMySQL($openConnection);
 		echo 'conexion cerrada'.'</br>';
 		$tiempo_findos=microtime(true);
-		echo "La comprabacion en BBDD se realizo en ".($tiempo_findos-$tiempo_iniciodos)." segundos"."</br>";
+		echo "La comprobacion en BBDD se realizo en ".($tiempo_findos-$tiempo_iniciodos)." segundos"."</br>";
 		unlink($xlsFile);
 		//print_r($excel_new);
 		return $excel_unique;

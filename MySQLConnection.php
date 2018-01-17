@@ -60,7 +60,7 @@ class MySQLConnection{
 		$query = 'LOAD DATA local INFILE "archivos/excel.csv" 
 				  INTO TABLE short_url_temp LINES TERMINATED BY \'\n\' (Large_Url)';
 		$insert = $this->executeQuery($query);
-		$query_procedure = 'CALL short_url';
+		$query_procedure = 'CALL insertTemp';
 		$insert_procedure = $this->executeQuery($query_procedure);
 		// }
   		//}

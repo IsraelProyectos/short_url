@@ -75,7 +75,8 @@ class ShortUrl
 		//echo count($array_excel_unique)."</br>";
 		$excel_unique = array();
 		$connectToBD = new MySQLConnection();
-		$openConnection = $connectToBD->connectToMySQL('localhost', 'emailings', 'DksQcaPP1waV', 'emailings');
+		//$openConnection = $connectToBD->connectToMySQL('localhost', 'emailings', 'DksQcaPP1waV', 'emailings');
+		$openConnection = $connectToBD->connectToMySQL('db480544677.db.1and1.com','dbo480544677','lokomotiv1973','db480544677');
 		$tiempo_iniciodos=microtime(true);
 		foreach ($array_excel_unique as $fileXls) {
 			$query_exist_register = "select Id from short_url where upper(Large_Url) = upper('".$fileXls."') " ;

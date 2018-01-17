@@ -11,7 +11,7 @@ class readFileStart
 		$ShortUrl = new ShortUrl();
 		
 		$connectToBD = new MySQLConnection();
-		$openConnection = $connectToBD->connectToMySQL('db480544677.db.1and1.com','dbo480544677','lokomotiv1973','db480544677');
+		$openConnection = $connectToBD->connectToMySQL('localhost', 'emailings', 'DksQcaPP1waV', 'emailings');
 		// if ($extensionFile == "csv") {
 		// 	$arrayCSV = $ShortUrl->readCSV($csvFile);
 		// 	$executeQuery = $connectToBD->query($arrayCSV);

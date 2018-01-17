@@ -21,32 +21,32 @@ class ShortUrl
 
 	    $tiempo_fin=microtime(true);
 
-		echo "El array se ha generado en ".($tiempo_fin-$tiempo_inicio)." segundos"."</br>";
-		//echo count($array_xls)."</br>";
-		$array_excel_unique = array_values(array_unique($array_csv));
-		//echo count($array_excel_unique)."</br>";
-		$excel_unique = array();
-		$connectToBD = new MySQLConnection();
-		$openConnection = $connectToBD->connectToMySQL('db480544677.db.1and1.com','dbo480544677','lokomotiv1973','db480544677');
-		$tiempo_iniciodos=microtime(true);
+		// echo "El array se ha generado en ".($tiempo_fin-$tiempo_inicio)." segundos"."</br>";
+		// //echo count($array_xls)."</br>";
+		// $array_excel_unique = array_values(array_unique($array_csv));
+		// //echo count($array_excel_unique)."</br>";
+		// $excel_unique = array();
+		// $connectToBD = new MySQLConnection();
+		// $openConnection = $connectToBD->connectToMySQL('localhost', 'emailings', 'DksQcaPP1waV', 'emailings');
+		// $tiempo_iniciodos=microtime(true);
 
-		foreach ($array_excel_unique as $fileXls) {
-			// for ($i=0; $i < count($fileXls) ; $i++) {
-			// 	$file = $fileXls[0]; 
-				$query_exist_register = "select Id from short_url where upper(Large_Url) = upper('".$fileXls."') " ;
-				$exist_register = $connectToBD->executeQuery($query_exist_register);
-				if ($exist_register->num_rows == 0) {
-				array_push($excel_unique, $fileXls);	
-		    	}
-			//}
+		// foreach ($array_excel_unique as $fileXls) {
+		// 	// for ($i=0; $i < count($fileXls) ; $i++) {
+		// 	// 	$file = $fileXls[0]; 
+		// 		$query_exist_register = "select Id from short_url where upper(Large_Url) = upper('".$fileXls."') " ;
+		// 		$exist_register = $connectToBD->executeQuery($query_exist_register);
+		// 		if ($exist_register->num_rows == 0) {
+		// 		array_push($excel_unique, $fileXls);	
+		//     	}
+		// 	//}
 			
-		}
-		$closeConnection = $connectToBD->disconnectMySQL($openConnection);
-		echo 'conexion cerrada'.'</br>';
-		$tiempo_findos=microtime(true);
-		echo "La comprobacion en BBDD se realizo en ".($tiempo_findos-$tiempo_iniciodos)." segundos"."</br>";
-		unlink($csvFile);
-	    return $excel_unique;
+		// }
+		// $closeConnection = $connectToBD->disconnectMySQL($openConnection);
+		// echo 'conexion cerrada'.'</br>';
+		// $tiempo_findos=microtime(true);
+		// echo "La comprobacion en BBDD se realizo en ".($tiempo_findos-$tiempo_iniciodos)." segundos"."</br>";
+		//unlink($csvFile);
+	    return $array_csv;
 	}
 
 	function readXLS($xlsFile){
@@ -75,7 +75,7 @@ class ShortUrl
 		//echo count($array_excel_unique)."</br>";
 		$excel_unique = array();
 		$connectToBD = new MySQLConnection();
-		$openConnection = $connectToBD->connectToMySQL('db480544677.db.1and1.com','dbo480544677','lokomotiv1973','db480544677');
+		$openConnection = $connectToBD->connectToMySQL('localhost', 'emailings', 'DksQcaPP1waV', 'emailings');
 		$tiempo_iniciodos=microtime(true);
 		foreach ($array_excel_unique as $fileXls) {
 			$query_exist_register = "select Id from short_url where upper(Large_Url) = upper('".$fileXls."') " ;
@@ -84,11 +84,9 @@ class ShortUrl
 				array_push($excel_unique, $fileXls);	
 		    }
 		}
-		$closeConnection = $connectToBD->disconnectMySQL($openConnection);
-		echo 'conexion cerrada'.'</br>';
 		$tiempo_findos=microtime(true);
 		echo "La comprobacion en BBDD se realizo en ".($tiempo_findos-$tiempo_iniciodos)." segundos"."</br>";
-		unlink($xlsFile);
+		//unlink($xlsFile);
 		//print_r($excel_new);
 		return $excel_unique;
 	}
